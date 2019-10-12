@@ -8,10 +8,11 @@ final class Client{
 
     private $app_key;
     private $app_private_key;
-    private $gateway_url = 'http://api.mayijuntuan.com';
+    public $gateway_url = 'http://api.mayijuntuan.com';
+    public $gateway_public_key = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuVUv50wf/Tnv1a+QDUoLcKRfWK/Gwo8yJpbak3++lbUWYAkQjRRzhGLGcvuVW3DxmEZwUAo8266EZ80ooNBD3C86tqnalA5FXc8m22IBBWIDbBZC7QoosfBpck/yWWTv53hUb83doBg09+6CX8KB+/2Vf/S2AXd5SHcVXaPJ+92Fj5An2r0i2p0utbpETiqG+R5dS7XGy4anauyBwSxJ+E/VHw28RcOxN9xrHUaPTLVKqZQrAHV0iyXzrNm9ChvRdkdTecQJ2udmjdF2WNxJ7hfCE7TAPIctI8iiPOu0iXMokQO8+SWFs5DtLOhQwIhL/ReY43g0q3LdHS88V02bTQIDAQAB';
 
 
-    public function __construct( $app_key, $app_private_key, $gateway_url='' ){
+    public function __construct( $app_key, $app_private_key, $gateway_url='', $gateway_public_key='' ){
 
         if( empty($app_key) )
             throw new Exception('app_key can not empty' );
@@ -23,6 +24,9 @@ final class Client{
 
         if( !empty($gateway_url) )
             $this->gateway_url = $gateway_url;
+
+        if( !empty($gateway_public_key) )
+            $this->gateway_public_key = $gateway_public_key;
 
     }
 
@@ -119,6 +123,42 @@ final class Client{
 
     }
 
+
+    //回调
+    public function notify( $params ){
+
+        //sign为空
+        $sign = $params['sign'];
+        if( empty($sign) )
+            return false;
+        $params['sign'] = null;
+
+        //app_key为空
+        $app_key = $params['app_key'];
+        if( empty($app_key) )
+            return false;
+
+        //超时
+        $time = $params['time'];
+        if( abs($time-time()) > 300 )
+            return false;
+
+        //签名的字符串
+        $signContent = self::getSignContent($params);
+
+        //app公钥
+        $public_key = $this->gateway_public_key;
+
+        //验证
+        $res = self::verify( $signContent, $sign, $public_key );
+        if( false === $res )
+            return false;
+
+        return true;
+
+    }
+
+
     //调用接口
     private function api( $action, $params=[], $method='get' ){
 
@@ -179,6 +219,23 @@ final class Client{
         openssl_sign( $data, $sign, $private_key, OPENSSL_ALGO_SHA256);
 
         return base64_encode($sign);
+
+    }
+
+    //验证签名
+    private static function verify( $data, $sign, $public_key ){
+
+//        $public_key = str_replace("\r\n", '', $public_key );
+
+        $public_key = "-----BEGIN PUBLIC KEY-----\n" .
+            wordwrap($public_key, 64, "\n", true) .
+            "\n-----END PUBLIC KEY-----";
+
+        $res = openssl_verify( $data, base64_decode($sign), $public_key, OPENSSL_ALGO_SHA256);
+        if( 1 === $res )
+            return true;
+
+        return false;
 
     }
 

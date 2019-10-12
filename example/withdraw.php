@@ -6,14 +6,14 @@ use MayijuntuanSdk\Client;
 
 require_once __DIR__ . "/config.php";
 
-$client = new Client( $app_key, $app_private_key, $gateway_url );
+$client = new Client( $app_key, $app_private_key );
 
 
 $currency = 'eth';
 $protocol = 'eth';
-$address = '0xbb731f25a8e2c75710ae354ff536b1426bb8e19f';
-$amount = 0.001;
+$address = '0x341d6a2abc090520edd2f61c1b5473448f439645';
+$amount = 0.002;
 
-$res = $client->withdraw( $currency, $protocol, $address, $amount );
-var_dump($res);
+$id = $client->withdraw( $currency, $protocol, $address, $amount );
+var_dump($id);
 
