@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use MayijuntuanSdk\Client;
+use Mayijuntuan\Blockchain\Client;
 
 require_once __DIR__ . "/config.php";
 

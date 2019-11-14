@@ -1,7 +1,7 @@
 {
-    "name": "mayijuntuan/sdk-php",
-    "homepage": "https://github.com/mayijuntuan/sdk-php",
-    "description": "Mayijuntuan Api SDK For PHP",
+    "name": "mayijuntuan/blockchain-sdk-php",
+    "homepage": "https://github.com/mayijuntuan/blockchain-sdk-php",
+    "description": "Mayijuntuan Blockchain SDK For PHP",
     "keywords": ["blockchain", "crypto", "pay","sdk","php","mayijuntuan"],
     "license": "MIT",
     "type": "library",
@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "MayijuntuanSdk\\": "src/"
+            "Mayijuntuan\\Blockchain\\": "src/"
         }
     }
 }

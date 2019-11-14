@@ -1,5 +1,5 @@
 <?php
-namespace MayijuntuanSdk;
+namespace Mayijuntuan\Blockchain;
 
 use Exception;
 
@@ -8,7 +8,7 @@ final class Client{
 
     private $app_key;
     private $app_private_key;
-    public $gateway_url = 'http://api.mayijuntuan.com';
+    public $gateway_url = 'http://api.nginxadmin.com';
     public $gateway_public_key = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuVUv50wf/Tnv1a+QDUoLcKRfWK/Gwo8yJpbak3++lbUWYAkQjRRzhGLGcvuVW3DxmEZwUAo8266EZ80ooNBD3C86tqnalA5FXc8m22IBBWIDbBZC7QoosfBpck/yWWTv53hUb83doBg09+6CX8KB+/2Vf/S2AXd5SHcVXaPJ+92Fj5An2r0i2p0utbpETiqG+R5dS7XGy4anauyBwSxJ+E/VHw28RcOxN9xrHUaPTLVKqZQrAHV0iyXzrNm9ChvRdkdTecQJ2udmjdF2WNxJ7hfCE7TAPIctI8iiPOu0iXMokQO8+SWFs5DtLOhQwIhL/ReY43g0q3LdHS88V02bTQIDAQAB';
 
 
